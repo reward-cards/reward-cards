@@ -109,16 +109,6 @@ function App() {
 
   const { loading, error: subgraphQueryError, data } = useQuery(GET_TRANSFERS);
 
-  useEffect(() => {
-    if (subgraphQueryError) {
-      console.error("Error while querying subgraph:", subgraphQueryError.message);
-      return;
-    }
-    if (!loading && data && data.transfers) {
-      console.log({ transfers: data.transfers });
-    }
-  }, [loading, subgraphQueryError, data]);
-
   return (
     <Container>
       <Header>

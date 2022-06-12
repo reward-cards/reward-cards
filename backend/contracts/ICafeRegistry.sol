@@ -17,13 +17,13 @@ interface ICafeRegistry {
         view
         returns (uint256);
 
-    function getMembershipDiscountsThresholds(address _cafeContract)
-        external
-        view
-        returns (uint256[] memory);
+    function getMembershipDiscountsThresholds(
+        address _cafeContract,
+        uint256 _membershipLevel
+    ) external view returns (uint256);
 
     function getMembershipDiscount(
         address _cafeContract,
-        uint8 _membershipLevel
+        uint256 _membershipLevel
     ) external view returns (uint256);
 }
