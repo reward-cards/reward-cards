@@ -7,7 +7,7 @@ export const Body = styled.div`
   flex-direction: column;
   font-size: calc(10px + 2vmin);
   justify-content: center;
-  margin-top: 40px;
+  margin-top: 5px;
 `;
 
 export const Button = styled.button`
@@ -38,6 +38,7 @@ export const Header = styled.header`
   flex-direction: row;
   justify-content: flex-end;
   min-height: 70px;
+  z-index = -1;
 `;
 
 export const Image = styled.img`
@@ -60,7 +61,6 @@ export const Amount = styled.input.attrs({
 export const Card = styled.div`
   height: 35vh;
   width: 60vh;
-  background-image: linear-gradient(to bottom right, #981631, #c12020);
   border-radius: 20px;
   margin-bottom: 20px;
   display: flex;

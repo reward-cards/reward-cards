@@ -7,13 +7,19 @@ export const Body = styled.div`
   flex-direction: column;
   font-size: calc(10px + 2vmin);
   justify-content: center;
-  margin-top: 40px;
+  margin-top: -90px;
 `;
 
 export const Input = styled.input.attrs({
   type: "number",
   min: 0,
 })`
+  width: calc(80px + 2vmin);;
+  font-size: calc(10px + 2vmin);
+  margin-left: 2vmin;
+  margin-right: 2vmin;
+`;
+export const InputText = styled.input`
   width: calc(80px + 2vmin);;
   font-size: calc(10px + 2vmin);
   margin-left: 2vmin;
