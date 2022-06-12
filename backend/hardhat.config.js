@@ -8,7 +8,8 @@ require('hardhat-contract-sizer')
 
 const RINKEBY_RPC_URL =
     process.env.RINKEBY_RPC_URL || "https://eth-rinkeby/example"
-const PRIVATE_KEY = process.env.PRIVATE_KEY || "0xkey"
+const OWNER_KEY = process.env.OWNER_KEY || "0xkey"
+const CAFE_OWNER_KEY = process.env.CAFE_OWNER_KEY || "0xkey"
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "key"
 const COINMARKETCAP_API = process.env.COINMARKETCAP_API || "key"
 
@@ -24,7 +25,7 @@ module.exports = {
     networks: {
         rinkeby: {
             url: RINKEBY_RPC_URL,
-            accounts: [PRIVATE_KEY],
+            accounts: [OWNER_KEY, CAFE_OWNER_KEY],
             chainId: 4,
             blockConfirmation: 10,
         },

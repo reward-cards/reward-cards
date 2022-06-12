@@ -1,9 +1,11 @@
-import erc20Abi from "./abis/erc20.json";
-import ownableAbi from "./abis/ownable.json";
+import cafeContractAbi from "./abis/CafeContract.json";
+import cafeRegistryAbi from "./abis/CafeRegistry.json";
+import cafeCoreAbi from "./abis/CafeCore.json";
 
 const abis = {
-  erc20: erc20Abi,
-  ownable: ownableAbi,
+  cafeContract: cafeContractAbi.abi,
+  cafeRegistry: cafeRegistryAbi.abi,
+  cafeCore: cafeCoreAbi.abi,
 };
 
 export default abis;

@@ -39,6 +39,7 @@ describe("CafeTest", function () {
     expect(await cafeContract.balanceOf(user.address, 2)).to.equal(1);
 
     await cafeCore.connect(user).executeOrder(cafeAddress, ["Coffee"], [5], { value: ethers.utils.parseEther("0.005") });
+    console.log("Paid for 5 Coffees");
 
     expect(await cafeContract.balanceOf(user.address, 0)).to.equal(1200);
     expect(await cafeContract.balanceOf(user.address, 1)).to.equal(1);
