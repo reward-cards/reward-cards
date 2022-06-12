@@ -24,12 +24,19 @@ There are three main parts of the smart contracts’ solution: (1) Café Core Co
 ## Café Core Contract
 Café Core Contract takes cares care about executing orders. It gets data about the prices, rewards etc. from the Café Registry. It also checks users‘ former orders at the particular Café’ contract. All of this serves as input data for the logic behind executing the order and getting discounts.
 
+Contract address at Rinkeby: [0xd52ce042c834c3b511e3b03d24045fc57a605aae](https://rinkeby.etherscan.io/address/0xd52ce042c834c3b511e3b03d24045fc57a605aae#code)
+
 ## Café Registry
 Café Registry stores all required data about the Cafés, their items in menus, items’ prices, one-time reward program (in nutshell it finds out how many coffee tokens you as a user must get in order to get a free coffee, rewards are set and priced in ETHs), and membership program (thresholds and percentage of life-time discounts -> once a user become real OG, he/she never pays full price since).
+
+Contract address at Rinkeby: [0x62b11709924e46a2eaef2ad70ce4e54b8b2d36dd](https://rinkeby.etherscan.io/address/0x62b11709924e46a2eaef2ad70ce4e54b8b2d36dd#code)
 
 ## Cafes’ Contracts
 It is a ERC1155 contract (with roles applied) which contains of CAFE_TOKEN (i.e., users’ points for orders), CLAIMED (i.e., how many one-time discounts a user has already claimed), and MEMBERSHIP_LEVEL (i.e., OG level by which users earn life-time discounts at the given café).
 
+Contract address at Rinkeby: [0x376dbf7d057bc88b54f57a61aa8fc5e0137766ca](https://rinkeby.etherscan.io/address/0x376dbf7d057bc88b54f57a61aa8fc5e0137766ca#code)
+
+## Diagram
 ![architecture](./backend/img/reward-card_architecture.png)
 
 # FAQ
