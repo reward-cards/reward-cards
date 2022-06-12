@@ -4,6 +4,7 @@ require("@nomiclabs/hardhat-waffle")
 require("hardhat-gas-reporter")
 require("solidity-coverage")
 require("hardhat-deploy")
+require('hardhat-contract-sizer')
 
 const RINKEBY_RPC_URL =
     process.env.RINKEBY_RPC_URL || "https://eth-rinkeby/example"

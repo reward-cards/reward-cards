@@ -8,7 +8,10 @@ error CafeRegistry__InputItemsDataMustHaveSameLength();
 error CafeRegistry__InputMembershipDataMustHaveSameLength();
 
 contract CafeRegistry {
+    event CafeContractCreated(address);
+
     address private owner;
+    address private cafeCore;
 
     struct CafeInfo {
         // item to its price
@@ -18,7 +21,6 @@ contract CafeRegistry {
         // membership level to all time discounts in percentage
         mapping(uint256 => uint256) membershipDiscounts;
         mapping(uint256 => uint256) membershipDiscountsThresholds;
-        uint256 totalNumberOfMemberships;
         uint256 oneTimeDiscountThreshold; // in cafe tokens
         uint256 oneTimeDiscount; // in eth
     }
@@ -29,8 +31,6 @@ contract CafeRegistry {
     mapping(address => bool) public cafeContracts;
     // cafe contract address => cafe payment receiver;
     mapping(address => address) public cafePaymentReceivers;
-    // cafe contract to eligible addresses
-    mapping(address => mapping(address => bool)) eligibleAddresses;
 
     constructor() {
         owner = msg.sender;
@@ -43,28 +43,14 @@ contract CafeRegistry {
         return cafeInfo[_cafeContract].membershipDiscounts[_membershipLevel];
     }
 
-    function getTotalNumberOfMemberships(address _cafeContract)
-        public
-        view
-        returns (uint256)
-    {
-        return cafeInfo[_cafeContract].totalNumberOfMemberships;
-    }
-
-    function getOneTimeDiscountThreshold(address _cafeContract)
-        public
-        view
-        returns (uint256)
-    {
-        return cafeInfo[_cafeContract].oneTimeDiscountThreshold;
-    }
-
-    function getOneTimeDiscount(address _cafeContract)
-        public
-        view
-        returns (uint256)
-    {
-        return cafeInfo[_cafeContract].oneTimeDiscount;
+    function getMembershipDiscountsThresholds(
+        address _cafeContract,
+        uint256 _membershipLevel
+    ) public view returns (uint256) {
+        return
+            cafeInfo[_cafeContract].membershipDiscountsThresholds[
+                _membershipLevel
+            ];
     }
 
     function getMenuItemReward(address _cafeContract, string calldata _item)
@@ -83,14 +69,6 @@ contract CafeRegistry {
         return cafeInfo[_cafeContract].menu[_item];
     }
 
-    modifier onlyEligible(address _cafeContract) {
-        if (
-            msg.sender == owner ||
-            (eligibleAddresses[_cafeContract][msg.sender]) == true
-        ) revert CafeRegistry__OnlyEligible();
-        _;
-    }
-
     function createCafeContract(
         string[] memory menuItems,
         uint256[] memory itemPrices,
@@ -106,11 +84,11 @@ contract CafeRegistry {
         // TODO: check if contract has been successfully deployed?
         CafeContract newCafeContract = new CafeContract(
             msg.sender,
-            _cafeOwnerRole
+            _cafeOwnerRole,
+            cafeCore,
+            address(this)
         );
         address _newCafeContractAddress = address(newCafeContract);
-        // add msg.sender to eligibleAddresses
-        eligibleAddresses[_newCafeContractAddress][msg.sender] = true;
         // set the contract payment receiver
         cafePaymentReceivers[_newCafeContractAddress] = _paymentReceiver;
         // add items to CafeInfo Struct
@@ -136,8 +114,6 @@ contract CafeRegistry {
             membershipLevels.length == membershipDiscounts.length &&
             membershipDiscounts.length == membershipDiscountThresholds.length
         ) {
-            cafeInfo[_newCafeContractAddress]
-                .totalNumberOfMemberships = membershipLevels.length;
             for (uint256 i = 0; i < membershipLevels.length; i++) {
                 cafeInfo[_newCafeContractAddress].membershipDiscountsThresholds[
                         membershipLevels[i]
@@ -155,7 +131,17 @@ contract CafeRegistry {
         cafeInfo[_newCafeContractAddress]
             .oneTimeDiscountThreshold = oneTimeDiscountThreshold;
 
+        cafeContracts[_newCafeContractAddress] = true;
+
+        emit CafeContractCreated(_newCafeContractAddress);
         return _newCafeContractAddress;
+    }
+
+    function setCafeCore(address _cafeCore) public {
+        if (msg.sender != owner) {
+            revert CafeRegistry__OnlyEligible();
+        }
+        cafeCore = _cafeCore;
     }
 
     // TODO: create functions to update menu, rewards, memberships etc.;

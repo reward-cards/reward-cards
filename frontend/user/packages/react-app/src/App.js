@@ -1,4 +1,3 @@
-import { useQuery } from "@apollo/client";
 import { Contract } from "@ethersproject/contracts";
 import { shortenAddress, useCall, useEthers, useLookupAddress } from "@usedapp/core";
 import React, { useEffect, useState } from "react";
@@ -6,12 +5,10 @@ import React, { useEffect, useState } from "react";
 import { Body, Button, Container, Header, Image, Link, Card, Amount, Center } from "./components";
 
 import { addresses, abis } from "@my-app/contracts";
-import GET_TRANSFERS from "./graphql/subgraph";
 import logo from "./prague.png";
 
 function RewardCard() {
   const [rendered, setRendered] = useState("");
-  const [hasCard, setHasCard] = useState(false);
   const ens = useLookupAddress();
   const { account } = useEthers();
   const tokens = "123123123";
@@ -24,13 +21,6 @@ function RewardCard() {
       setRendered(shortenAddress(account));
     }
   }, [account, ens, rendered]);
-
-  useEffect(() => {
-    if (false) {
-      setHasCard(true);
-    }
-  }, [hasCard])
-
 
   return (
     hasCard ?
@@ -61,7 +51,7 @@ function RewardCard() {
         <Image src={logo}></Image>
       </Card >
       :
-      <Button onClick={() => { setHasCard(true) }}>Mint Your Card</Button>
+      null
   )
 }
 
